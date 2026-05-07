@@ -1,0 +1,111 @@
+pipeline {
+    agent any
+    environment {
+
+        // OS = "${params.OS}"
+
+        PROJECT_GROUP = "control"
+        // PROJECT_NAME = "daq_dashboard-${OS}"
+        PROJECT_NAME = "daq_dashboard"
+        GIT_URI= "https://adtc.swm.ai/gitlab/ai-group/ai-4/daq_dashboard.git"
+        GIT_CREDENTIAL_ID= "bbd7fa3e-a3dc-4a5f-80a9-4468459e29bc"
+        BUILD_DISPLAY_NAME= "Deploy-${PROJECT_NAME}"
+
+        DOCKER_REGISTRY = "adtc.swm.ai:5000"
+		DOCKER_TAG = "1.0.${currentBuild.number}"
+		DOCKER_REGISTRY_CREDENTIAL = "ywkim1_rladyddn"
+
+        REMOTE_PATH= "infra_glue/${PROJECT_NAME}"
+        REMOTE_SERVICE_PATH= "project/apollo/service/infra_glue/${PROJECT_NAME}"
+        DEPLOY_LOG_FILE_NM= "deploy.log"
+
+        BUILD_NUMBER = "${currentBuild.number}"
+        REMOTE_CDN_PATH= "~/apollo/service/infra_node/cdn/data/project/depoly/daq_dashboard"
+    }
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH', sortMode: 'DESCENDING_SMART', listSize: '5'
+    }
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: "${params.BRANCH}",
+                credentialsId: "${GIT_CREDENTIAL_ID}",
+                url: "${GIT_URI}"
+            }
+        }
+
+        stage('Docker build') {
+            steps {
+
+                sh "docker build -f ./deploy/Dockerfile -t ${DOCKER_REGISTRY}/${PROJECT_GROUP}/${PROJECT_NAME}:${DOCKER_TAG} ."
+
+                sh "sed -i 's/<PROJECT_NAME>/${PROJECT_NAME}/g' ./deploy/docker-compose.yml"
+                sh "sed -i 's/<DOCKER_REPOSITY>/${DOCKER_REGISTRY}\\/${PROJECT_GROUP}/g' ./deploy/docker-compose.yml"
+                sh "sed -i 's/<BUILD_VER>/${DOCKER_TAG}/g' ./deploy/docker-compose.yml"
+                sh "sed -i 's/<CONTAINER_NAME>/${PROJECT_NAME}/g' ./deploy/docker-compose.yml"
+            }
+        }
+
+        stage('Docker Image Push'){
+            steps{
+                withDockerRegistry(credentialsId: "${DOCKER_REGISTRY_CREDENTIAL}", url: "http://${DOCKER_REGISTRY}") {
+                    echo "${DOCKER_REGISTRY_CREDENTIAL}"
+                    echo "${DOCKER_REGISTRY}"
+                    sh "docker push ${DOCKER_REGISTRY}/${PROJECT_GROUP}/${PROJECT_NAME}:${DOCKER_TAG}"
+                }
+            }
+        }
+
+        stage('Ssh transfer and docker restart') {
+            steps{
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'server_79',
+                transfers: [
+                    sshTransfer(cleanRemote: false, excludes: '',
+                    execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+',
+                    remoteDirectory: "${REMOTE_PATH}",
+                    remoteDirectorySDF: false,
+                    removePrefix: "deploy",
+                    sourceFiles: "deploy/docker-compose.yml") ,
+
+                    sshTransfer(
+                        execCommand: """
+                            cd ${REMOTE_SERVICE_PATH}
+
+                            date >> jenkins.log
+
+                            echo \"docker-compose down\" >> jenkins.log
+                            docker-compose down
+
+                            echo \"docker-compose up -d\" >> jenkins.log
+                            docker-compose up -d
+
+                            docker cp daq_dashboard:/app/build/app/outputs/flutter-apk .
+
+                            mv ./flutter-apk/app-release.apk ./flutter-apk/daq_dashboard-v${BUILD_NUMBER}.apk
+                            scp ./flutter-apk/daq_dashboard-v${BUILD_NUMBER}.apk oracle@192.168.1.92:${REMOTE_CDN_PATH}
+                        """
+                    )
+                ],
+                usePromotionTimestamp: false,
+                useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
+
+    }
+
+    post{
+        success{
+            echo "success"
+            slackSend (channel: "#jenkins", color: '#00FF00', message: "${PROJECT_NAME} (${params.BRANCH}) - ${BUILD_DISPLAY_NAME} Success" )
+        }
+        failure{
+            echo "fail!!"
+            slackSend (channel: "#jenkins", color: '#FF0000', message: "${PROJECT_NAME} (${params.BRANCH}) - ${BUILD_DISPLAY_NAME} Failed" )
+        }
+        unstable{
+            echo "UnStable!!"
+            slackSend (channel: "#jenkins", color: '#FF0000', message: "${PROJECT_NAME} (${params.BRANCH}) - ${BUILD_DISPLAY_NAME} Failed" )
+        }
+    }
+}

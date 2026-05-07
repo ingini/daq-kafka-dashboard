@@ -1,0 +1,37 @@
+{
+  "_comment": "daq-kafka-dashboard 설정 파일 - APK 빌드 전 수정",
+
+  "server_address": "192.168.20.100",
+  "port": 50050,
+
+  "net_interval": 100,
+
+  "_comment_run_mode": "Options: 'debug' or 'release'",
+  "run_mode": "release",
+
+  "ping": {
+    "gateway": {
+      "name": "lte",
+      "address": "192.168.20.1"
+    },
+    "wan": {
+      "name": "wan",
+      "address": "8.8.8.8"
+    },
+    "cpu": {
+      "name": "cpu",
+      "address": "192.168.20.100"
+    }
+  },
+
+  "daq_edge": {
+    "address": "192.168.20.100",
+    "port": 22,
+    "user_name": "swm",
+    "password": "swm",
+    "work_dir": "/home/swm/DAQ/daq-system",
+    "_comment_active": "Options: 'true' or 'false'",
+    "active": "false",
+    "docker_compose_filename": "docker-compose.yml"
+  }
+}

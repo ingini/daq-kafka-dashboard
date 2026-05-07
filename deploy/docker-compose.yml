@@ -1,0 +1,21 @@
+version: '3'
+services:
+  # 개발환경
+  <PROJECT_NAME>:
+    image: <DOCKER_REPOSITY>/<PROJECT_NAME>:<BUILD_VER>
+    container_name: <CONTAINER_NAME>
+    networks:
+      - infra-glue
+    # 호스트 디렉토리에 바인드 마운트
+    # volumes:
+    #   - ./dist:/app/dist
+    restart: always
+
+networks:
+  infra-glue:
+    driver: bridge
+    external: true
+    internal: true
+
+
+

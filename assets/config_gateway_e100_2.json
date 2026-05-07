@@ -1,0 +1,35 @@
+{
+  "server_address": "192.168.20.100",
+  "port": 50050 ,
+
+  "net_interval" : 100,
+
+  "_comment_run_mode": "Options: 'debug' or 'release'",
+  "run_mode": "debug",
+
+  "ping": {
+    "gateway": {
+      "name": "lte",
+      "address": "192.168.20.1"
+    },
+    "wan": {
+      "name": "wan",
+      "address": "8.8.8.8"
+    },
+    "cpu": {
+      "name": "cpu",
+      "address": "192.168.20.100"
+    }
+  } ,
+  "daq_edge": {
+    "address": "192.168.20.100",
+    "port": 22,
+    "user_name": "armstrong",
+    "password": "swm.ai" ,
+    "work_dir": "/home/armstrong/DAQ",
+    "_comment_active": "Options: 'true' or 'false'",
+    "active": "true",
+    "_comment_docker_compose_filename": "Options: 'docker-compose-cpu-t-bench-2.yml' or 'docker-compose-cpu-e100-1.yml'",
+    "docker_compose_filename": "docker-compose-cpu-e100-2.yml"
+  }
+}

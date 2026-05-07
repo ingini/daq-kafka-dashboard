@@ -1,0 +1,171 @@
+
+
+
+
+
+import 'dart:ui' as ui;
+
+import 'package:daq_dashboard/src/Controllers/CameraController.dart';
+import 'package:daq_dashboard/src/Controllers/ImageController.dart';
+import 'package:daq_dashboard/src/Controllers/MovieClipController.dart';
+import 'package:daq_dashboard/src/dtos/RowImageDTO.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+
+class ImageCanvasConsumeWidget<T extends MovieClipController> extends StatelessWidget {
+
+  final T _controller;
+  final String _tag;
+
+  final bool is_active_scale;
+  final bool is_flipped;
+
+  ImageCanvasConsumeWidget(this._controller , this._tag , {this.is_active_scale = true , this.is_flipped = false});
+
+
+  @override
+  Widget build(BuildContext context) {
+    RowImageDTO? imageDto = _controller.PopRowImageDTO();
+
+    if (imageDto != null) {
+      return CustomPaint(
+        painter: ImagePainter(imageDto!.rowIamge,is_active_scale: is_active_scale,is_flipped: is_flipped),
+        size: MediaQuery.of(context).size,
+      );
+    } else {
+      // print("Img Not~~~~~~~~~ [ $_tag ] RePaint!!");
+      return Container();
+      // return Center(child: CircularProgressIndicator());
+    }
+  }
+
+}
+
+
+class ImagePainter extends CustomPainter {
+  final ui.Image image;
+  final bool is_active_scale;
+  final bool is_flipped;
+
+  ImagePainter(this.image , {this.is_active_scale = true, this.is_flipped = false});
+
+  // void paint(Canvas canvas, Size size , bool is_active_scale = true ) {
+  //
+  // }
+
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 화면 폭에 맞추어 이미지의 비율을 계산합니다.
+    double scale = size.width / image.width;
+
+    if (!is_active_scale) {
+      scale = 1;
+    }
+
+    // 새로운 폭과 높이를 계산합니다.
+    double newWidth = image.width * scale;
+    double newHeight = image.height * scale;
+
+    // 이미지의 중앙을 화면의 중앙에 맞추기 위한 offset을 계산합니다.
+    final double dx = (size.width - newWidth) / 2;
+    final double dy = (size.height - newHeight) / 2;
+
+    final Offset offset = Offset(dx, dy);
+    final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+    final dstRect = Rect.fromLTWH(offset.dx, offset.dy, newWidth, newHeight);
+
+    var paint = Paint();
+
+    if (is_flipped) {
+      canvas.save();
+      canvas.translate(size.width, 0);
+      canvas.scale(-1, 1);
+    }
+
+    // 이미지를 화면에 중앙 정렬하여 그립니다.
+    canvas.drawImageRect(image, srcRect, dstRect, paint);
+
+
+    if (is_flipped) {
+      canvas.restore();
+    }
+
+  }
+
+  //v2
+
+  // @override
+  // void paint(Canvas canvas, Size size) {
+  //   // 화면 폭에 맞추어 이미지의 비율을 계산합니다.
+  //   double scale = size.width / image.width;
+  //
+  //   if (!is_active_scale) {
+  //     scale = 1;
+  //   }
+  //
+  //   // 새로운 폭과 높이를 계산합니다.
+  //   double newWidth = image.width * scale;
+  //   double newHeight = image.height * scale;
+  //
+  //   // 이미지의 중앙을 화면의 중앙에 맞추기 위한 offset을 계산합니다.
+  //   final double dx = (size.width - newWidth) / 2;
+  //   final double dy = (size.height - newHeight) / 2;
+  //
+  //   final Offset offset = Offset(dx, dy);
+  //   final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+  //   final dstRect = Rect.fromLTWH(offset.dx, offset.dy, newWidth, newHeight);
+  //
+  //   var paint = Paint();
+  //
+  //   // 이미지를 화면에 중앙 정렬하여 그립니다.
+  //   canvas.drawImageRect(image, srcRect, dstRect, paint);
+  // }
+
+
+
+  // v1
+  //
+  // @override
+  // void paint(Canvas canvas, Size size ) {
+  //   // 화면 폭에 맞추어 이미지의 비율을 계산합니다.
+  //   double scale = size.width / image.width;
+  //
+  //   // scale=0.7;
+  //   // scale=0.115;
+  //   if( !is_active_scale )
+  //     scale = 1;
+  //
+  //   // 새로운 폭과 높이를 계산합니다.
+  //   double newWidth = image.width * scale;
+  //   double newHeight = image.height * scale;
+  //
+  //   // print("img Size : $newWidth .. $newHeight ");
+  //
+  //   // newWidth = 320.0;
+  //   // newHeight = 240.0;
+  //
+  //   // 이미지의 중앙을 화면의 중앙에 맞추기 위한 offset을 계산합니다.
+  //   final Offset offset = Offset(0, (size.height - newHeight) / 2);
+  //   // 이미지를 화면에 꽉 차게 그리기 위한 Rect를 계산합니다.
+  //   final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+  //   final dstRect = Rect.fromLTWH(offset.dx, offset.dy, newWidth, newHeight);
+  //
+  //   var paint = Paint();
+  //
+  //   // print("ImagePainter :: paint");
+  //
+  //   // 이미지를 화면에 꽉 차게 그립니다.
+  //   canvas.drawImageRect(image, srcRect, dstRect, paint);
+  //   // canvas.drawRect(dstRect, paint);
+  //   // canvas.drawImage(image, Offset.zero, Paint());
+  // }
+
+
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return oldDelegate is ImagePainter && oldDelegate.image != image;
+  }
+}
