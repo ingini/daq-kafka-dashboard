@@ -104,7 +104,8 @@ class _LayOutState extends State<LayOut> {
                           // color: RunMode.IsDebug() ? Colors.green : null,
                           child:
                           // Text("Lidar")
-                          IntergrationLidarWidget(eTags.lidar),
+                          // IntergrationLidarWidget(eTags.lidar),
+                          child: Container(),
                         )
                     ),
 
@@ -144,17 +145,17 @@ class _LayOutState extends State<LayOut> {
                     //
                     //
                     //
-                    Positioned(
-                      top: 325.71.h,
-                      left: 948.13.w,
-                      child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_a, bClipRect: true),
-                    ),
+                    // Positioned(
+                    //   top: 325.71.h,
+                    //   left: 948.13.w,
+                    //   child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_a, bClipRect: true),
+                    // ),
 
-                    Positioned(
-                      top: 325.71.h,
-                      left: 1126.19.w,
-                      child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_e, bClipRect: true),
-                    ),
+                    // Positioned(
+                    //   top: 325.71.h,
+                    //   left: 1126.19.w,
+                    //   child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_e, bClipRect: true),
+                    // ),
 
 
                     //
