@@ -102,7 +102,7 @@ class _LayOutState extends State<LayOut> {
                           width: 1183.5.w,
                           height: 985.h,
                           // color: RunMode.IsDebug() ? Colors.green : null,
-                          child:
+                          // child:
                           // Text("Lidar")
                           // IntergrationLidarWidget(eTags.lidar),
                           child: Container(),
