@@ -118,21 +118,21 @@ class _LayOutState extends State<LayOut> {
                     // cam0 — 좌
                     Positioned(
                       top: 32.h,
-                      left: 137.w,
+                      left: 396.w,
                       child: LayoutTemplate(widgetType : eWidgetType.Camera, tag : eTags.cam_a_1, bClipRect: true),
                     ),
 
                     // cam1 — 중앙
                     Positioned(
                       top: 32.h,
-                      left: 631.w,
+                      left: 878.w,
                       child: LayoutTemplate(widgetType : eWidgetType.Camera, tag : eTags.cam_a_2, bClipRect: true),
                     ),
 
                     // cam2 — 우
                     Positioned(
                       top: 32.h,
-                      left: 1125.w,
+                      left: 1360.w,
                       child: LayoutTemplate(widgetType : eWidgetType.Camera, tag : eTags.cam_b_1, bClipRect: true),
                     ),
 

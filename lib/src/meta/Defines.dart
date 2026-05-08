@@ -302,22 +302,16 @@ class Defines {
       metaProperty( tag:eTags.gnss , tag_name:"gnss", sensor_name:"gnss", display_name:"gnss" ),
       metaProperty( tag:eTags.storage , tag_name:"cpu/storage", sensor_name:"cpu/storage", display_name:"storage" ),
 
-      // TELE CHIPS
-      metaProperty( tag:eTags.lidar , tag_name:"cpu/lidar", sensor_name:"cpu/lidar", display_name:"lidar" ),
-      metaProperty( tag:eTags.lidar_eth_e_a , tag_name:"cpu/eth_e_a", sensor_name:"cpu/eth_e_a", display_name:"eth_e_a" ),
-      metaProperty( tag:eTags.lidar_eth_e_e , tag_name:"cpu/eth_e_e", sensor_name:"cpu/eth_e_e", display_name:"eth_e_e" ),
-
-      // metaProperty( tag:eTags.lidar ,         tag_name:"cpu/lidar",    sensor_name:"cpu/lidar",   display_name:"lidar" ),
-      // metaProperty( tag:eTags.lidar_eth_e_a , tag_name:"cpu/eth_e_a" , sensor_name:"cpu/eth_e_a" ,display_name:"eth_e_a" ),
-      // metaProperty( tag:eTags.lidar_eth_e_b , tag_name:"cpu/eth_e_b" , sensor_name:"cpu/eth_e_b" ,display_name:"eth_e_b" ),
-
-
-      metaProperty( tag:eTags.lidar_eth_e_c , tag_name:"cpu/eth_e_c" , sensor_name:"cpu/eth_e_c" ,display_name:"eth_e_c" ),
-      metaProperty( tag:eTags.lidar_eth_e_d , tag_name:"cpu/eth_e_d" , sensor_name:"cpu/eth_e_d" ,display_name:"eth_e_d" ),
-      metaProperty( tag:eTags.lidar_eth_e_i , tag_name:"cpu/eth_e_i" , sensor_name:"cpu/eth_e_i" ,display_name:"eth_e_i" ),
-      metaProperty( tag:eTags.lidar_eth_e_j , tag_name:"cpu/eth_e_j" , sensor_name:"cpu/eth_e_j" ,display_name:"eth_e_j" ),
-      metaProperty( tag:eTags.lidar_eth_e_k , tag_name:"cpu/eth_e_k" , sensor_name:"cpu/eth_e_k" ,display_name:"eth_e_k" ),
-      metaProperty( tag:eTags.lidar_eth_e_l , tag_name:"cpu/eth_e_l" , sensor_name:"cpu/eth_e_l" ,display_name:"eth_e_l" ),
+      // TELE CHIPS — AP500L 미사용 (LiDAR 없음)
+      // metaProperty( tag:eTags.lidar , tag_name:"cpu/lidar", sensor_name:"cpu/lidar", display_name:"lidar" ),
+      // metaProperty( tag:eTags.lidar_eth_e_a , tag_name:"cpu/eth_e_a", sensor_name:"cpu/eth_e_a", display_name:"eth_e_a" ),
+      // metaProperty( tag:eTags.lidar_eth_e_e , tag_name:"cpu/eth_e_e", sensor_name:"cpu/eth_e_e", display_name:"eth_e_e" ),
+      // metaProperty( tag:eTags.lidar_eth_e_c , tag_name:"cpu/eth_e_c" , sensor_name:"cpu/eth_e_c" ,display_name:"eth_e_c" ),
+      // metaProperty( tag:eTags.lidar_eth_e_d , tag_name:"cpu/eth_e_d" , sensor_name:"cpu/eth_e_d" ,display_name:"eth_e_d" ),
+      // metaProperty( tag:eTags.lidar_eth_e_i , tag_name:"cpu/eth_e_i" , sensor_name:"cpu/eth_e_i" ,display_name:"eth_e_i" ),
+      // metaProperty( tag:eTags.lidar_eth_e_j , tag_name:"cpu/eth_e_j" , sensor_name:"cpu/eth_e_j" ,display_name:"eth_e_j" ),
+      // metaProperty( tag:eTags.lidar_eth_e_k , tag_name:"cpu/eth_e_k" , sensor_name:"cpu/eth_e_k" ,display_name:"eth_e_k" ),
+      // metaProperty( tag:eTags.lidar_eth_e_l , tag_name:"cpu/eth_e_l" , sensor_name:"cpu/eth_e_l" ,display_name:"eth_e_l" ),
 
 
       metaProperty( tag:eTags.notification , tag_name:"notification" , sensor_name:"notification" ,display_name:"notification" ),
@@ -521,7 +515,7 @@ class Defines {
     // TODO : CODE 1
     await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_a_1)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_a_1)!.tag_name );
     await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_a_2)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_a_2)!.tag_name );
-    await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_b_1)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_b_1)!.tag_name );
+    await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_b_1)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_b_1)!.tag_name );
     await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_b_2)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_b_2)!.tag_name );
     await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_b_3)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_b_3)!.tag_name );
     await Get.putAsync<CameraController>( () async => await ControllerFactory.create<CameraController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.cam_b_4)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.cam_b_4)!.tag_name );
@@ -533,12 +527,12 @@ class Defines {
 
     await Get.putAsync<NetStatusController>( () async => await ControllerFactory.create<NetStatusController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.netStatus)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.netStatus)!.tag_name );
 
-    await Get.putAsync<CanController>( () async => await ControllerFactory.create<CanController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.can)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.can)!.tag_name );
+    await Get.putAsync<CanController>( () async => await ControllerFactory.create<CanController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.can)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.can)!.tag_name );
 
-    await Get.putAsync<IntegrationLidarController>( () async => await ControllerFactory.create<IntegrationLidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar)!.tag_name );
+    await Get.putAsync<IntegrationLidarController>( () async => await ControllerFactory.create<IntegrationLidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar)!.tag_name );
 
-    await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_a)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_a)!.tag_name );
-    await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_e)!, true, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_e)!.tag_name );
+    await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_a)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_a)!.tag_name );
+    await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_e)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_e)!.tag_name );
     await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_c)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_c)!.tag_name );
     await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_d)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_d)!.tag_name );
     await Get.putAsync<LidarController>( () async => await ControllerFactory.create<LidarController>( rpcClientRap, millisec, MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_i)!, false, ) , tag: MetaPropertyManager().getMetaProperty(eTags.lidar_eth_e_i)!.tag_name );
