@@ -102,10 +102,10 @@ class _LayOutState extends State<LayOut> {
                           width: 1183.5.w,
                           height: 985.h,
                           // color: RunMode.IsDebug() ? Colors.green : null,
-                          // child:
+                          child:
                           // Text("Lidar")
-                          // IntergrationLidarWidget(eTags.lidar),
-                          child: Container(),
+                          // IntergrationLidarWidget(eTags.lidar),  // AP500L 미사용
+                          Container(),
                         )
                     ),
 
@@ -145,13 +145,13 @@ class _LayOutState extends State<LayOut> {
                     //
                     //
                     //
-                    // Positioned(
+                    // Positioned(  // AP500L 미사용
                     //   top: 325.71.h,
                     //   left: 948.13.w,
                     //   child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_a, bClipRect: true),
                     // ),
 
-                    // Positioned(
+                    // Positioned(  // AP500L 미사용
                     //   top: 325.71.h,
                     //   left: 1126.19.w,
                     //   child: LayoutTemplate(widgetType : eWidgetType.Lidar, tag : eTags.lidar_eth_e_e, bClipRect: true),
